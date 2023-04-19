@@ -1,44 +1,88 @@
 import { mount } from "@vue/test-utils";
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect } from "vitest";
 import Article from "../components/Article.vue";
-import localVue from "../mocks/localVue";
 import { mockAuthors } from "../mocks/mockAuthors";
+import { mockArticles } from "../mocks/mockArticles";
+import flushPromises from "flush-promises";
 
-describe("Article.vue", () => {
-  it("should render the page correctly with empty props", () => {
-    // const apiRequest = localVue.prototype.$requests.request
-    const authors = mockAuthors;
-
-    // apiRequest.mockResolvedValueOnce(authors)
-    vi.fn().mockResolvedValueOnce(authors);
-
+describe("Article", () => {
+  it("should render the page correctly with empty props", async () => {
     const wrapper = mount(Article, {
-      localVue,
+      mocks: {
+        $requests: {
+          getAuthors: () => {
+            return new Promise((resolve) => resolve(mockAuthors));
+          },
+        },
+      },
     });
-    wrapper.setData({ authorsList: authors });
-    expect(wrapper.vm.authorsList).toStrictEqual(authors);
+
+    await flushPromises();
+
+    expect(wrapper.vm.$data.authorsList).toStrictEqual(mockAuthors);
   });
 
-  it("should render the page correctly", () => {
-    const id = 1;
-    const title = "Bourne Again";
-    const body = "010111100001";
-    const author = 1;
-    const created_at = new Date("2023-02-06 10:15:43");
-    const updated_at = new Date("2023-04-17 13:49:42");
-    const isDetails = false;
+  it("should render the page correctly", async () => {
+    const article = mockArticles[0];
 
     const wrapper = mount(Article, {
-      localVue,
-      propsData: { id, title, body, author, created_at, updated_at, isDetails },
+      propsData: {
+        id: article.id,
+        title: article.title,
+        body: article.body,
+        author: article.author,
+        created_at: new Date(article.created_at),
+        updated_at: new Date(article.updated_at),
+        isDetails: article.isDetails,
+      },
+      mocks: {
+        $requests: {
+          getAuthors: () => {
+            return new Promise((resolve) => resolve(mockAuthors));
+          },
+        },
+      },
     });
 
-    expect(wrapper.vm.id).toBe(id);
-    expect(wrapper.vm.title).toBe(title);
-    expect(wrapper.vm.body).toBe(body);
-    expect(wrapper.vm.author).toBe(author);
-    expect(wrapper.vm.created_at).toBe(created_at);
-    expect(wrapper.vm.updated_at).toBe(updated_at);
-    expect(wrapper.vm.isDetails).toBe(isDetails);
+    await flushPromises();
+
+    expect(wrapper.vm.id).toBe(article.id);
+    expect(wrapper.vm.title).toBe(article.title);
+    expect(wrapper.vm.body).toBe(article.body);
+    expect(wrapper.vm.author).toBe(article.author);
+    expect(wrapper.vm.created_at).toStrictEqual(new Date(article.created_at));
+    expect(wrapper.vm.updated_at).toStrictEqual(new Date(article.updated_at));
+    expect(wrapper.vm.isDetails).toBe(article.isDetails);
+  });
+
+  it("should emit on button clicks", async () => {
+    const article = mockArticles[0];
+
+    const wrapper = mount(Article, {
+      propsData: {
+        id: article.id,
+        title: article.title,
+        body: article.body,
+        author: article.author,
+        created_at: new Date(article.created_at),
+        updated_at: new Date(article.updated_at),
+        isDetails: article.isDetails,
+      },
+      mocks: {
+        $requests: {
+          getAuthors: () => {
+            return new Promise((resolve) => resolve(mockAuthors));
+          },
+        },
+      },
+    });
+
+    await flushPromises();
+
+    await wrapper.findAll("button").at(1).trigger("click");
+    expect(wrapper.emitted("onEditClick")).toStrictEqual([[article.id]]);
+
+    await wrapper.findAll("button").at(2).trigger("click");
+    expect(wrapper.emitted("onRemoveClick")).toStrictEqual([[article.id]]);
   });
 });

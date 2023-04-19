@@ -1,21 +1,30 @@
 import { mount } from "@vue/test-utils";
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect } from "vitest";
 import NewArticleModal from "../components/NewArticleModal.vue";
-import localVue from "../mocks/localVue";
-
 import { mockAuthors } from "../mocks/mockAuthors";
 import { mockArticles } from "../mocks/mockArticles";
+import flushPromises from "flush-promises";
 
-describe("NewArticleModal.vue", () => {
-  it("should render the page correctly", () => {
-    const authors = mockAuthors;
-    const articles = mockArticles;
-
-    vi.fn().mockResolvedValueOnce(authors);
-    vi.fn().mockResolvedValueOnce(articles);
+describe("NewArticleModal", () => {
+  it("should render the page correctly", async () => {
     const wrapper = mount(NewArticleModal, {
-      localVue,
+      mocks: {
+        $requests: {
+          getAuthors: () => {
+            return new Promise((resolve) => resolve(mockAuthors));
+          },
+          getArticles: () => {
+            return new Promise((resolve) => resolve(mockArticles));
+          },
+        },
+      },
     });
-    expect(wrapper.vm.$data.selectedAuthor).toBe("Select Author");
+
+    await flushPromises();
+
+    console.log(wrapper.vm.$data.articlesList);
+
+    expect(wrapper.vm.$data.authorsList).toStrictEqual(mockAuthors);
+    expect(wrapper.vm.$data.articlesList).toStrictEqual(mockArticles);
   });
 });

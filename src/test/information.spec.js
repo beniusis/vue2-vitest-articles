@@ -2,7 +2,7 @@ import { mount } from "@vue/test-utils";
 import { describe, it, expect } from "vitest";
 import InformationMessage from "../components/InformationMessage.vue";
 
-describe("InformationMessage.vue", () => {
+describe("InformationMessage", () => {
   it("should render the page correctly with empty props", () => {
     const wrapper = mount(InformationMessage, {});
 
@@ -21,5 +21,12 @@ describe("InformationMessage.vue", () => {
 
     expect(wrapper.vm.informationType).toBe(testInformationType);
     expect(wrapper.vm.message).toBe(testMessage);
+  });
+
+  it("should emit onCloseAlert on close button click", async () => {
+    const wrapper = mount(InformationMessage, {});
+
+    await wrapper.find(".delete").trigger("click");
+    expect(wrapper.emitted("onCloseAlert")).toStrictEqual([[]]);
   });
 });
