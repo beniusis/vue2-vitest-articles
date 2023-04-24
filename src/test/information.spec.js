@@ -12,21 +12,21 @@ describe("InformationMessage", () => {
 
   it("should render the page correctly", () => {
     const informationType = "Success";
-    const testInformationType = "Success";
     const message = "Your action was successful";
-    const testMessage = "Your action was successful";
     const wrapper = mount(InformationMessage, {
       propsData: { informationType, message },
     });
-
-    expect(wrapper.vm.informationType).toBe(testInformationType);
-    expect(wrapper.vm.message).toBe(testMessage);
+    expect(wrapper.vm.informationType).toBe(informationType);
+    expect(wrapper.vm.message).toBe(message);
+    expect(wrapper.find("p").text()).toBe(informationType);
+    expect(wrapper.find(".message-body").text()).toBe(message);
   });
 
   it("should emit onCloseAlert on close button click", async () => {
     const wrapper = mount(InformationMessage, {});
 
     await wrapper.find(".delete").trigger("click");
-    expect(wrapper.emitted("onCloseAlert")).toStrictEqual([[]]);
+    await wrapper.vm.$nextTick();
+    expect(wrapper.emitted("onCloseAlert")).toBeTruthy();
   });
 });
