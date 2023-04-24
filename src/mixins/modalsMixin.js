@@ -46,6 +46,7 @@ export const modalsMixin = {
     },
 
     handleAfterAdd(value) {
+      this.closeAddModal();
       this.openShowInfo();
       this.actionValue(value);
     },

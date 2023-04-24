@@ -4,6 +4,7 @@ import Article from "../components/Article.vue";
 import { mockAuthors } from "../mocks/mockAuthors";
 import { mockArticles } from "../mocks/mockArticles";
 import flushPromises from "flush-promises";
+import VueRouter from "vue-router";
 
 describe("Article", () => {
   it("should render the page correctly with empty props", async () => {
@@ -56,6 +57,7 @@ describe("Article", () => {
   });
 
   it("should emit on button clicks", async () => {
+    const router = new VueRouter();
     const article = mockArticles[0];
 
     const wrapper = mount(Article, {
@@ -74,15 +76,25 @@ describe("Article", () => {
             return new Promise((resolve) => resolve(mockAuthors));
           },
         },
+        $router: {
+          push: () => {
+            router.push({ name: "article", params: { id: article.id } });
+          },
+        },
       },
     });
 
     await flushPromises();
 
+    await wrapper.findAll("button").at(0).trigger("click");
+    expect(wrapper.emitted({ name: "article", params: { id: article.id } }));
+
     await wrapper.findAll("button").at(1).trigger("click");
+    expect(wrapper.emitted("onEditClick")).toBeTruthy();
     expect(wrapper.emitted("onEditClick")).toStrictEqual([[article.id]]);
 
     await wrapper.findAll("button").at(2).trigger("click");
+    expect(wrapper.emitted("onRemoveClick")).toBeTruthy();
     expect(wrapper.emitted("onRemoveClick")).toStrictEqual([[article.id]]);
   });
 });

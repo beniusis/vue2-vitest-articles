@@ -89,7 +89,6 @@ export default {
       bodyInput: "",
 
       authorsList: [],
-      articlesList: [],
       selectedAuthorsID: 0,
 
       errorMessage: "",
@@ -98,26 +97,19 @@ export default {
   },
 
   methods: {
-    async getArticles() {
-      const response = await this.$requests.getArticles();
-      this.articlesList = response.data;
-    },
-
     async addNewArticle() {
       try {
         this.findAuthorsID();
         await this.$requests.createArticle(
-          this.articlesList.at(-1).id + 1,
+          ...[,],
           this.titleInput,
           this.bodyInput,
           this.selectedAuthorsID,
           new Date().toLocaleString("lt-LT"),
           null
         );
-        this.handleCloseModal();
         this.$emit("afterAdd", "Success");
       } catch (error) {
-        this.handleCloseModal();
         this.$emit("afterAdd", "Failure");
       }
     },
@@ -159,7 +151,6 @@ export default {
 
   created() {
     this.getAuthorsList();
-    this.getArticles();
   }
 };
 </script>
