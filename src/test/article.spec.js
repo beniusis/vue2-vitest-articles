@@ -1,12 +1,27 @@
+import { mount } from "@vue/test-utils";
 import { describe, it, expect } from "vitest";
 import { mockAuthors } from "../mocks/mockAuthors";
 import { mockArticles } from "../mocks/mockArticles";
 import flushPromises from "flush-promises";
 import { newWrapper } from "../mocks/articleWrapper";
+import Article from "../components/Article.vue";
 
 describe("Article", () => {
   it("should render the page correctly with empty props", async () => {
-    const wrapper = newWrapper();
+    const wrapper = mount(Article, {
+      mocks: {
+        $requests: {
+          getAuthors: () => {
+            return new Promise((resolve) => resolve(mockAuthors));
+          },
+        },
+        $router: {
+          push: () => {
+            router.push({ name: "article", params: { id: article.id } });
+          },
+        },
+      },
+    });
     await flushPromises();
     expect(wrapper.vm.$data.authorsList).toStrictEqual(mockAuthors);
   });
