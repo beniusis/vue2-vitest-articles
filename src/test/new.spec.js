@@ -3,7 +3,7 @@ import { describe, it, expect, beforeAll } from "vitest";
 import NewArticleModal from "../components/NewArticleModal.vue";
 import { mockAuthors } from "../mocks/mockAuthors";
 import flushPromises from "flush-promises";
-import { newWrapper } from "../mocks/wrapper";
+import { newWrapper } from "../mocks/newArticleModalWrapper";
 
 describe("NewArticleModal", async () => {
   it("should render the page correctly", async () => {

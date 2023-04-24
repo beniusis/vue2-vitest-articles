@@ -1,6 +1,6 @@
 import { mount } from "@vue/test-utils";
 import NewArticleModal from "../components/NewArticleModal.vue";
-import { mockAuthors } from "../mocks/mockAuthors";
+import { mockAuthors } from "./mockAuthors";
 
 export function newWrapper() {
   return mount(NewArticleModal, {
