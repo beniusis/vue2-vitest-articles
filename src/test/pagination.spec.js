@@ -9,7 +9,6 @@ describe("Pagination", () => {
     const wrapper = mount(Pagination, {
       propsData: { totalPages },
     });
-
     expect(wrapper.vm.totalPages).toBe(testTotalPages);
   });
 
@@ -18,11 +17,18 @@ describe("Pagination", () => {
     const wrapper = mount(Pagination, {
       propsData: { totalPages },
     });
-
     const pageNumber = 1;
     const pages = wrapper.find(`#page-${pageNumber}`);
     await pages.trigger("click");
     await wrapper.vm.$nextTick();
     expect(wrapper.emitted().onPageChange).toStrictEqual([[pageNumber]]);
+  });
+
+  it("should fill up the page list correctly", () => {
+    const totalPages = 3;
+    const wrapper = mount(Pagination, {
+      propsData: { totalPages },
+    });
+    expect(wrapper.findAll("li").length).toBe(totalPages);
   });
 });
