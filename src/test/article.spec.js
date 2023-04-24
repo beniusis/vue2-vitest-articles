@@ -15,11 +15,6 @@ describe("Article", () => {
             return new Promise((resolve) => resolve(mockAuthors));
           },
         },
-        $router: {
-          push: () => {
-            router.push({ name: "article", params: { id: article.id } });
-          },
-        },
       },
     });
     await flushPromises();
