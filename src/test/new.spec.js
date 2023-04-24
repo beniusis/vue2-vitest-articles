@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import { describe, it, expect, beforeAll } from "vitest";
+import { describe, it, expect } from "vitest";
 import NewArticleModal from "../components/NewArticleModal.vue";
 import { mockAuthors } from "../mocks/mockAuthors";
 import flushPromises from "flush-promises";
@@ -20,7 +20,7 @@ describe("NewArticleModal", async () => {
     expect(wrapper.emitted("onModalClose")).toBeTruthy();
   });
 
-  it("should show throw an error on 'Create' button click if title field is empty", async () => {
+  it("should throw an error on 'Create' button click if title field is empty", async () => {
     const wrapper = newWrapper();
     await flushPromises();
     await wrapper.findAll("button").at(0).trigger("click");
