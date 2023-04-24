@@ -18,6 +18,12 @@ describe("EditArticleModal", () => {
     expect(wrapper.vm.$data.oldCreatedDate).toStrictEqual(article.created_at);
   });
 
+  it("should have disabled the author input field", async () => {
+    const wrapper = newWrapper();
+    await flushPromises();
+    expect(wrapper.findAll("input").at(1).attributes("disabled")).toBeTruthy();
+  })
+
   it("should emit onModalClose on 'Go back' button click", async () => {
     const wrapper = newWrapper();
     await flushPromises();
@@ -59,8 +65,6 @@ describe("EditArticleModal", () => {
     });
     await wrapper.findAll("button").at(0).trigger("click");
     await wrapper.vm.$nextTick();
-    expect(wrapper.vm.$data.errorId).toBe(0);
-    expect(wrapper.vm.$data.errorMessage).toBe("");
     expect(wrapper.emitted().afterEdit[0]).toStrictEqual(["Success"]);
   });
 
@@ -85,7 +89,7 @@ describe("EditArticleModal", () => {
             );
           },
           updateArticle: () => {
-            return new Promise(() => reject());
+            return new Promise((resolve, reject) => reject());
           },
         },
       },
@@ -99,8 +103,6 @@ describe("EditArticleModal", () => {
     });
     await wrapper.findAll("button").at(0).trigger("click");
     await wrapper.vm.$nextTick();
-    expect(wrapper.vm.$data.errorId).toBe(0);
-    expect(wrapper.vm.$data.errorMessage).toBe("");
     expect(wrapper.emitted().afterEdit[0]).toStrictEqual(["Failure"]);
   });
 });

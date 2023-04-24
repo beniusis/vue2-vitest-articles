@@ -20,6 +20,14 @@ describe("NewArticleModal", async () => {
     expect(wrapper.emitted("onModalClose")).toBeTruthy();
   });
 
+  it("should fill up the authors' dropdown", async () => {
+    const wrapper = newWrapper();
+    await flushPromises();
+    expect(wrapper.find("select").element.childElementCount).toBe(
+      mockAuthors.length + 1
+    );
+  });
+
   it("should throw an error on 'Create' button click if title field is empty", async () => {
     const wrapper = newWrapper();
     await flushPromises();

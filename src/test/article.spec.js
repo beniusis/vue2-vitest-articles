@@ -1,10 +1,7 @@
-import { mount } from "@vue/test-utils";
 import { describe, it, expect } from "vitest";
-import Article from "../components/Article.vue";
 import { mockAuthors } from "../mocks/mockAuthors";
 import { mockArticles } from "../mocks/mockArticles";
 import flushPromises from "flush-promises";
-import VueRouter from "vue-router";
 import { newWrapper } from "../mocks/articleWrapper";
 
 describe("Article", () => {
@@ -31,31 +28,8 @@ describe("Article", () => {
   });
 
   it("should route to /articles/:id correctly on 'Details' button click", async () => {
-    const router = new VueRouter();
     const article = mockArticles[0];
-    const wrapper = mount(Article, {
-      propsData: {
-        id: article.id,
-        title: article.title,
-        body: article.body,
-        author: article.author,
-        created_at: new Date(article.created_at),
-        updated_at: new Date(article.updated_at),
-        isDetails: article.isDetails,
-      },
-      mocks: {
-        $requests: {
-          getAuthors: () => {
-            return new Promise((resolve) => resolve(mockAuthors));
-          },
-        },
-        $router: {
-          push: () => {
-            router.push({ name: "article", params: { id: article.id } });
-          },
-        },
-      },
-    });
+    const wrapper = newWrapper();
     await flushPromises();
     await wrapper.findAll("button").at(0).trigger("click");
     await wrapper.vm.$nextTick();
