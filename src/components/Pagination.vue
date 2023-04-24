@@ -1,4 +1,4 @@
-<template>
+  <template>
   <nav
     class="pagination is-centered m-4"
     role="navigation"
@@ -10,6 +10,7 @@
           class="pagination-link"
           aria-label="Goto page whatever"
           @click="$emit('onPageChange', page)"
+          :id="`page-${page}`"
           >{{ page }}</a
         >
       </li>

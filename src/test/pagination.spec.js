@@ -19,7 +19,10 @@ describe("Pagination", () => {
       propsData: { totalPages },
     });
 
-    await wrapper.find("a").trigger("click");
-    expect(wrapper.emitted("onPageChange")).toStrictEqual([[1]]);
+    const pageNumber = 1;
+    const pages = wrapper.find(`#page-${pageNumber}`);
+    await pages.trigger("click");
+    await wrapper.vm.$nextTick();
+    expect(wrapper.emitted().onPageChange).toStrictEqual([[pageNumber]]);
   });
 });
