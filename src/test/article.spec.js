@@ -1,12 +1,19 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 import { mockAuthors } from "./mocks/mockAuthors";
 import flushPromises from "flush-promises";
 import { mockArticle } from "./mocks/mockArticle";
 import Article from "../components/Article.vue";
-import VueRouter from "vue-router";
 import createWrapper from "./mocks/mockWrapper";
 
 describe("Article", () => {
+  let $routerMock = {
+    push: vi.fn(),
+  };
+
+  beforeEach(() => {
+    $routerMock.push.mockReset();
+  });
+
   it("should render the page correctly with empty props", async () => {
     const wrapper = createWrapper(Article, {
       mocks: {
@@ -67,7 +74,6 @@ describe("Article", () => {
   });
 
   it("should route to /articles/:id correctly on 'Details' button click", async () => {
-    const router = new VueRouter();
     const wrapper = createWrapper(Article, {
       mocks: {
         $requests: {
@@ -75,11 +81,7 @@ describe("Article", () => {
             return new Promise((resolve) => resolve(mockAuthors));
           },
         },
-        $router: {
-          push: () => {
-            router.push({ name: "article", params: { id: mockArticle.id } });
-          },
-        },
+        $router: $routerMock,
       },
       propsData: {
         id: mockArticle.id,
@@ -94,9 +96,12 @@ describe("Article", () => {
     await flushPromises();
     await wrapper.find("#details").trigger("click");
     await wrapper.vm.$nextTick();
-    expect(
-      wrapper.emitted({ name: "article", params: { id: mockArticle.id } })
-    );
+    expect($routerMock.push).toHaveBeenCalledWith({
+      name: "article",
+      params: {
+        id: mockArticle.id,
+      },
+    });
   });
 
   it("should emit onEditClick on 'Edit' button click", async () => {
