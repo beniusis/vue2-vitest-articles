@@ -1,10 +1,11 @@
 import { mount } from "@vue/test-utils";
 import { describe, it, expect } from "vitest";
 import { mockAuthors } from "../mocks/mockAuthors";
-import { mockArticles } from "../mocks/mockArticles";
 import flushPromises from "flush-promises";
-import { newWrapper } from "../mocks/articleWrapper";
+import { newWrapper, articleMock } from "../mocks/articleWrapper";
 import Article from "../components/Article.vue";
+
+const article = articleMock();
 
 describe("Article", () => {
   it("should render the page correctly with empty props", async () => {
@@ -22,7 +23,6 @@ describe("Article", () => {
   });
 
   it("should render the page correctly", async () => {
-    const article = mockArticles[0];
     const wrapper = newWrapper();
     await flushPromises();
     expect(wrapper.vm.id).toBe(article.id);
@@ -38,7 +38,6 @@ describe("Article", () => {
   });
 
   it("should route to /articles/:id correctly on 'Details' button click", async () => {
-    const article = mockArticles[0];
     const wrapper = newWrapper();
     await flushPromises();
     await wrapper.findAll("button").at(0).trigger("click");
@@ -47,7 +46,6 @@ describe("Article", () => {
   });
 
   it("should emit onEditClick on 'Edit' button click", async () => {
-    const article = mockArticles[0];
     const wrapper = newWrapper();
     await flushPromises();
     await wrapper.findAll("button").at(1).trigger("click");
@@ -57,7 +55,6 @@ describe("Article", () => {
   });
 
   it("should emit onRemoveClick on 'Remove' button click", async () => {
-    const article = mockArticles[0];
     const wrapper = newWrapper();
     await flushPromises();
     await wrapper.findAll("button").at(2).trigger("click");

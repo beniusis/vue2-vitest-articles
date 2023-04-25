@@ -5,7 +5,7 @@ import { mockArticles } from "./mockArticles";
 import VueRouter from "vue-router";
 
 export function newWrapper() {
-  const article = mockArticles[0];
+  const article = articleMock();
   const router = new VueRouter();
 
   return mount(Article, {
@@ -31,4 +31,8 @@ export function newWrapper() {
       },
     },
   });
+}
+
+export function articleMock() {
+  return mockArticles[0];
 }

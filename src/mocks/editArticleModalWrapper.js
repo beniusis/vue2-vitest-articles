@@ -4,8 +4,7 @@ import { mockAuthors } from "./mockAuthors";
 import { mockArticles } from "./mockArticles";
 
 export function newWrapper() {
-  const article = mockArticles[0];
-  const idx = article.id;
+  const idx = articleMock().id;
   return mount(EditArticleModal, {
     propsData: { id: idx },
     mocks: {
@@ -30,4 +29,8 @@ export function newWrapper() {
       },
     },
   });
+}
+
+export function articleMock() {
+  return mockArticles[0];
 }

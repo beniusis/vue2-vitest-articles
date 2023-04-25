@@ -2,13 +2,12 @@ import { mount } from "@vue/test-utils";
 import { describe, it, expect } from "vitest";
 import { mockAuthors } from "../mocks/mockAuthors";
 import EditArticleModal from "../components/EditArticleModal.vue";
-import { mockArticles } from "../mocks/mockArticles";
 import flushPromises from "flush-promises";
-import { newWrapper } from "../mocks/editArticleModalWrapper";
+import { newWrapper, articleMock } from "../mocks/editArticleModalWrapper";
 
 describe("EditArticleModal", () => {
   it("should render the page correctly", async () => {
-    const article = mockArticles[0];
+    const article = articleMock();
     const wrapper = newWrapper();
     await flushPromises();
     expect(wrapper.vm.$data.titleInput).toBe(article.title);
@@ -69,7 +68,7 @@ describe("EditArticleModal", () => {
   });
 
   it("should fail updating an article after 'Update' button click", async () => {
-    const idx = mockArticles[0].id;
+    const idx = articleMock().id;
     const wrapper = mount(EditArticleModal, {
       propsData: { id: idx },
       mocks: {
