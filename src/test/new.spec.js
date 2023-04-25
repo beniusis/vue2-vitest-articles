@@ -9,15 +9,13 @@ describe("NewArticleModal", async () => {
   it("should render the page correctly", async () => {
     const wrapper = newWrapper();
     await flushPromises();
+    expect(wrapper.vm.$data.titleInput).toBe("");
+    expect(wrapper.vm.$data.selectedAuthor).toBe("Select Author");
+    expect(wrapper.vm.$data.bodyInput).toBe("");
     expect(wrapper.vm.$data.authorsList).toStrictEqual(mockAuthors);
-  });
-
-  it("should emit onModalClose on 'Go back' button click", async () => {
-    const wrapper = newWrapper();
-    await flushPromises();
-    await wrapper.findAll("button").at(1).trigger("click");
-    await wrapper.vm.$nextTick();
-    expect(wrapper.emitted("onModalClose")).toBeTruthy();
+    expect(wrapper.vm.$data.selectedAuthorsID).toBe(0);
+    expect(wrapper.vm.$data.errorMessage).toBe("");
+    expect(wrapper.vm.$data.errorId).toBe(0);
   });
 
   it("should fill up the authors' dropdown", async () => {
@@ -104,5 +102,13 @@ describe("NewArticleModal", async () => {
     expect(wrapper.vm.$data.errorId).toBe(0);
     expect(wrapper.vm.$data.errorMessage).toBe("");
     expect(wrapper.emitted().afterAdd[0]).toStrictEqual(["Failure"]);
+  });
+
+  it("should emit onModalClose on 'Go back' button click", async () => {
+    const wrapper = newWrapper();
+    await flushPromises();
+    await wrapper.findAll("button").at(1).trigger("click");
+    await wrapper.vm.$nextTick();
+    expect(wrapper.emitted("onModalClose")).toBeTruthy();
   });
 });

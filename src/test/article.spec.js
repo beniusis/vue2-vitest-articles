@@ -20,9 +20,16 @@ describe("Article", () => {
     });
     await flushPromises();
     expect(wrapper.vm.$data.authorsList).toStrictEqual(mockAuthors);
+    expect(wrapper.vm.id).toBeUndefined();
+    expect(wrapper.vm.tite).toBeUndefined();
+    expect(wrapper.vm.body).toBeUndefined();
+    expect(wrapper.vm.author).toBeUndefined();
+    expect(wrapper.vm.created_at).toBeUndefined();
+    expect(wrapper.vm.updated_at).toBeUndefined();
+    expect(wrapper.vm.isDetails).toBeFalsy();
   });
 
-  it("should render the page correctly", async () => {
+  it("should render the page correctly with props", async () => {
     const wrapper = newWrapper();
     await flushPromises();
     expect(wrapper.vm.id).toBe(article.id);

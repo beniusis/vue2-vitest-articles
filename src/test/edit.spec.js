@@ -10,11 +10,14 @@ describe("EditArticleModal", () => {
     const article = articleMock();
     const wrapper = newWrapper();
     await flushPromises();
+    expect(wrapper.vm.id).toBe(article.id);
     expect(wrapper.vm.$data.titleInput).toBe(article.title);
     expect(wrapper.vm.$data.bodyInput).toBe(article.body);
     expect(wrapper.vm.$data.authorsList).toStrictEqual(mockAuthors);
     expect(wrapper.vm.$data.selectedAuthorsID).toBe(article.author);
     expect(wrapper.vm.$data.oldCreatedDate).toStrictEqual(article.created_at);
+    expect(wrapper.vm.$data.errorMessage).toBe("");
+    expect(wrapper.vm.$data.errorId).toBe(0);
   });
 
   it("should have disabled the author input field", async () => {

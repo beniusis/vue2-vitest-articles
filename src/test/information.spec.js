@@ -9,11 +9,21 @@ describe("InformationMessage", () => {
     expect(wrapper.vm.message).toBeUndefined();
   });
 
+  it("should render the page correctly with props", () => {
+    const informationType = "Greeting";
+    const message = "Welcome!";
+    const wrapper = mount(InformationMessage, {
+      propsData: { informationType: informationType, message: message },
+    });
+    expect(wrapper.vm.informationType).toBe(informationType);
+    expect(wrapper.vm.message).toBe(message);
+  });
+
   it("should render the page correctly if the action was successful", () => {
     const informationType = "Success";
     const message = "Your action was successful";
     const wrapper = mount(InformationMessage, {
-      propsData: { informationType, message },
+      propsData: { informationType: informationType, message: message },
     });
     expect(wrapper.vm.informationType).toBe(informationType);
     expect(wrapper.vm.message).toBe(message);
@@ -25,7 +35,7 @@ describe("InformationMessage", () => {
     const informationType = "Error";
     const message = "Your action failed.";
     const wrapper = mount(InformationMessage, {
-      propsData: { informationType, message },
+      propsData: { informationType: informationType, message: message },
     });
     expect(wrapper.vm.informationType).toBe(informationType);
     expect(wrapper.vm.message).toBe(message);
