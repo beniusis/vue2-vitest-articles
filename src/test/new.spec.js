@@ -1,13 +1,20 @@
-import { mount } from "@vue/test-utils";
 import { describe, it, expect } from "vitest";
 import NewArticleModal from "../components/NewArticleModal.vue";
-import { mockAuthors } from "../mocks/mockAuthors";
+import { mockAuthors } from "./mocks/mockAuthors";
 import flushPromises from "flush-promises";
-import { newWrapper } from "../mocks/newArticleModalWrapper";
+import createWrapper from "./mocks/mockWrapper";
 
 describe("NewArticleModal", async () => {
   it("should render the page correctly", async () => {
-    const wrapper = newWrapper();
+    const wrapper = createWrapper(NewArticleModal, {
+      mocks: {
+        $requests: {
+          getAuthors: () => {
+            return new Promise((resolve) => resolve(mockAuthors));
+          },
+        },
+      },
+    });
     await flushPromises();
     expect(wrapper.vm.$data.titleInput).toBe("");
     expect(wrapper.vm.$data.selectedAuthor).toBe("Select Author");
@@ -19,7 +26,15 @@ describe("NewArticleModal", async () => {
   });
 
   it("should fill up the authors' dropdown", async () => {
-    const wrapper = newWrapper();
+    const wrapper = createWrapper(NewArticleModal, {
+      mocks: {
+        $requests: {
+          getAuthors: () => {
+            return new Promise((resolve) => resolve(mockAuthors));
+          },
+        },
+      },
+    });
     await flushPromises();
     expect(wrapper.find("select").element.childElementCount).toBe(
       mockAuthors.length + 1
@@ -27,7 +42,15 @@ describe("NewArticleModal", async () => {
   });
 
   it("should throw an error on 'Create' button click if title field is empty", async () => {
-    const wrapper = newWrapper();
+    const wrapper = createWrapper(NewArticleModal, {
+      mocks: {
+        $requests: {
+          getAuthors: () => {
+            return new Promise((resolve) => resolve(mockAuthors));
+          },
+        },
+      },
+    });
     await flushPromises();
     await wrapper.findAll("button").at(0).trigger("click");
     await wrapper.vm.$nextTick();
@@ -36,7 +59,15 @@ describe("NewArticleModal", async () => {
   });
 
   it("should throw an error on 'Create' button click if author was not selected", async () => {
-    const wrapper = newWrapper();
+    const wrapper = createWrapper(NewArticleModal, {
+      mocks: {
+        $requests: {
+          getAuthors: () => {
+            return new Promise((resolve) => resolve(mockAuthors));
+          },
+        },
+      },
+    });
     await flushPromises();
     await wrapper.setData({
       titleInput: "testTitleInput",
@@ -48,7 +79,15 @@ describe("NewArticleModal", async () => {
   });
 
   it("should throw an error on 'Create' button click if body field is empty", async () => {
-    const wrapper = newWrapper();
+    const wrapper = createWrapper(NewArticleModal, {
+      mocks: {
+        $requests: {
+          getAuthors: () => {
+            return new Promise((resolve) => resolve(mockAuthors));
+          },
+        },
+      },
+    });
     await flushPromises();
     await wrapper.setData({
       titleInput: "testTitleInput",
@@ -62,7 +101,26 @@ describe("NewArticleModal", async () => {
   });
 
   it("should create a new article on 'Create' button click", async () => {
-    const wrapper = newWrapper();
+    const wrapper = createWrapper(NewArticleModal, {
+      mocks: {
+        $requests: {
+          getAuthors: () => {
+            return new Promise((resolve) => resolve(mockAuthors));
+          },
+          createArticle: () => {
+            return new Promise((resolve) =>
+              resolve({
+                title: "testTitle",
+                body: "testBody",
+                author: 1,
+                created_at: new Date().toLocaleString("lt-LT"),
+                updated_at: null,
+              })
+            );
+          },
+        },
+      },
+    });
     await flushPromises();
     await wrapper.setData({
       titleInput: "testTitleInput",
@@ -78,14 +136,14 @@ describe("NewArticleModal", async () => {
   });
 
   it("should fail on article creation after 'Create' button click", async () => {
-    const wrapper = mount(NewArticleModal, {
+    const wrapper = createWrapper(NewArticleModal, {
       mocks: {
         $requests: {
           getAuthors: () => {
             return new Promise((resolve) => resolve(mockAuthors));
           },
           createArticle: () => {
-            return new Promise(() => reject());
+            return new Promise((resolve, reject) => reject());
           },
         },
       },
@@ -105,7 +163,15 @@ describe("NewArticleModal", async () => {
   });
 
   it("should emit onModalClose on 'Go back' button click", async () => {
-    const wrapper = newWrapper();
+    const wrapper = createWrapper(NewArticleModal, {
+      mocks: {
+        $requests: {
+          getAuthors: () => {
+            return new Promise((resolve) => resolve(mockAuthors));
+          },
+        },
+      },
+    });
     await flushPromises();
     await wrapper.findAll("button").at(1).trigger("click");
     await wrapper.vm.$nextTick();

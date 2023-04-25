@@ -1,10 +1,10 @@
-import { mount } from "@vue/test-utils";
 import { describe, it, expect } from "vitest";
 import InformationMessage from "../components/InformationMessage.vue";
+import createWrapper from "./mocks/mockWrapper";
 
 describe("InformationMessage", () => {
   it("should render the page correctly with empty props", () => {
-    const wrapper = mount(InformationMessage, {});
+    const wrapper = createWrapper(InformationMessage);
     expect(wrapper.vm.informationType).toBeUndefined();
     expect(wrapper.vm.message).toBeUndefined();
   });
@@ -12,8 +12,11 @@ describe("InformationMessage", () => {
   it("should render the page correctly with props", () => {
     const informationType = "Greeting";
     const message = "Welcome!";
-    const wrapper = mount(InformationMessage, {
-      propsData: { informationType: informationType, message: message },
+    const wrapper = createWrapper(InformationMessage, {
+      propsData: {
+        informationType: informationType,
+        message: message,
+      },
     });
     expect(wrapper.vm.informationType).toBe(informationType);
     expect(wrapper.vm.message).toBe(message);
@@ -22,8 +25,11 @@ describe("InformationMessage", () => {
   it("should render the page correctly if the action was successful", () => {
     const informationType = "Success";
     const message = "Your action was successful";
-    const wrapper = mount(InformationMessage, {
-      propsData: { informationType: informationType, message: message },
+    const wrapper = createWrapper(InformationMessage, {
+      propsData: {
+        informationType: informationType,
+        message: message,
+      },
     });
     expect(wrapper.vm.informationType).toBe(informationType);
     expect(wrapper.vm.message).toBe(message);
@@ -34,8 +40,11 @@ describe("InformationMessage", () => {
   it("should render the page correctly if the action was not successful", () => {
     const informationType = "Error";
     const message = "Your action failed.";
-    const wrapper = mount(InformationMessage, {
-      propsData: { informationType: informationType, message: message },
+    const wrapper = createWrapper(InformationMessage, {
+      propsData: {
+        informationType: informationType,
+        message: message,
+      },
     });
     expect(wrapper.vm.informationType).toBe(informationType);
     expect(wrapper.vm.message).toBe(message);
@@ -44,7 +53,7 @@ describe("InformationMessage", () => {
   });
 
   it("should emit onCloseAlert on close button click", async () => {
-    const wrapper = mount(InformationMessage, {});
+    const wrapper = createWrapper(InformationMessage);
     await wrapper.find(".delete").trigger("click");
     await wrapper.vm.$nextTick();
     expect(wrapper.emitted("onCloseAlert")).toBeTruthy();
