@@ -24,7 +24,7 @@ describe("EditArticleModal", () => {
     const wrapper = newWrapper();
     await flushPromises();
     expect(wrapper.findAll("input").at(1).attributes("disabled")).toBeTruthy();
-  })
+  });
 
   it("should emit onModalClose on 'Go back' button click", async () => {
     const wrapper = newWrapper();
@@ -71,9 +71,9 @@ describe("EditArticleModal", () => {
   });
 
   it("should fail updating an article after 'Update' button click", async () => {
-    const idx = articleMock().id;
+    const article = articleMock();
     const wrapper = mount(EditArticleModal, {
-      propsData: { id: idx },
+      propsData: { id: article.id },
       mocks: {
         $requests: {
           getAuthors: () => {
@@ -82,11 +82,11 @@ describe("EditArticleModal", () => {
           getArticle: () => {
             return new Promise((resolve) =>
               resolve({
-                id: idx,
-                title: "Bourne Again",
-                body: "010111100001",
-                author: 1,
-                created_at: "2023-02-06 10:15:43",
+                id: article.id,
+                title: article.title,
+                body: article.body,
+                author: article.author,
+                created_at: article.created_at,
               })
             );
           },

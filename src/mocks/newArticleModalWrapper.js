@@ -14,7 +14,7 @@ export function newWrapper() {
             resolve({
               title: "testTitle",
               body: "testBody",
-              author: 0,
+              author: 1,
               created_at: new Date().toLocaleString("lt-LT"),
               updated_at: null,
             })
