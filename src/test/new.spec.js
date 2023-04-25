@@ -36,7 +36,7 @@ describe("NewArticleModal", async () => {
       },
     });
     await flushPromises();
-    expect(wrapper.find("select").element.childElementCount).toBe(
+    expect(wrapper.find("#author-selection").element.childElementCount).toBe(
       mockAuthors.length + 1
     );
   });
@@ -52,7 +52,7 @@ describe("NewArticleModal", async () => {
       },
     });
     await flushPromises();
-    await wrapper.findAll("button").at(0).trigger("click");
+    await wrapper.find("#create").trigger("click");
     await wrapper.vm.$nextTick();
     expect(wrapper.vm.$data.errorId).toBe(1);
     expect(wrapper.vm.$data.errorMessage).toBe("Title field is empty.");
@@ -72,7 +72,7 @@ describe("NewArticleModal", async () => {
     await wrapper.setData({
       titleInput: "testTitleInput",
     });
-    await wrapper.findAll("button").at(0).trigger("click");
+    await wrapper.find("#create").trigger("click");
     await wrapper.vm.$nextTick();
     expect(wrapper.vm.$data.errorId).toBe(2);
     expect(wrapper.vm.$data.errorMessage).toBe("Author is not selected.");
@@ -94,7 +94,7 @@ describe("NewArticleModal", async () => {
       selectedAuthor: "Jason Bourne",
       selectedAuthorsID: 1,
     });
-    await wrapper.findAll("button").at(0).trigger("click");
+    await wrapper.find("#create").trigger("click");
     await wrapper.vm.$nextTick();
     expect(wrapper.vm.$data.errorId).toBe(3);
     expect(wrapper.vm.$data.errorMessage).toBe("Body field is empty.");
@@ -128,7 +128,7 @@ describe("NewArticleModal", async () => {
       selectedAuthor: "Jason Bourne",
       selectedAuthorsID: 1,
     });
-    await wrapper.findAll("button").at(0).trigger("click");
+    await wrapper.find("#create").trigger("click");
     await wrapper.vm.$nextTick();
     expect(wrapper.vm.$data.errorId).toBe(0);
     expect(wrapper.vm.$data.errorMessage).toBe("");
@@ -155,7 +155,7 @@ describe("NewArticleModal", async () => {
       selectedAuthor: "Jason Bourne",
       selectedAuthorsID: 1,
     });
-    await wrapper.findAll("button").at(0).trigger("click");
+    await wrapper.find("#create").trigger("click");
     await wrapper.vm.$nextTick();
     expect(wrapper.vm.$data.errorId).toBe(0);
     expect(wrapper.vm.$data.errorMessage).toBe("");
@@ -173,7 +173,7 @@ describe("NewArticleModal", async () => {
       },
     });
     await flushPromises();
-    await wrapper.findAll("button").at(1).trigger("click");
+    await wrapper.find("#go-back").trigger("click");
     await wrapper.vm.$nextTick();
     expect(wrapper.emitted("onModalClose")).toBeTruthy();
   });

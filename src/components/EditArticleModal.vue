@@ -17,6 +17,7 @@
                 class="input"
                 placeholder="Enter the title"
                 v-model="titleInput"
+                id="titleInputField"
               />
             </div>
           </div>
@@ -49,12 +50,12 @@
           </div>
           <div class="field is-grouped">
             <div class="control">
-              <button class="button is-link" @click="checkFields">
+              <button class="button is-link" id="update" @click="checkFields">
                 Update
               </button>
             </div>
             <div class="control">
-              <button class="button is-link is-light" @click="handleCloseModal">
+              <button class="button is-link is-light" id="go-back" @click="handleCloseModal">
                 Go back
               </button>
             </div>

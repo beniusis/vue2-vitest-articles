@@ -69,6 +69,7 @@ describe("EditArticleModal", () => {
     });
     await flushPromises();
     expect(wrapper.findAll("input").at(1).attributes("disabled")).toBeTruthy();
+    // expect(wrapper.find("#titleInputField").attributes("disabled")).toBeTruthy();
   });
 
   it("should emit onModalClose on 'Go back' button click", async () => {
@@ -96,7 +97,7 @@ describe("EditArticleModal", () => {
       },
     });
     await flushPromises();
-    await wrapper.findAll("button").at(1).trigger("click");
+    await wrapper.find("#go-back").trigger("click");
     await wrapper.vm.$nextTick();
     expect(wrapper.emitted("onModalClose")).toBeTruthy();
   });
@@ -129,7 +130,7 @@ describe("EditArticleModal", () => {
     await wrapper.setData({
       titleInput: "",
     });
-    await wrapper.findAll("button").at(0).trigger("click");
+    await wrapper.find("#update").trigger("click");
     await wrapper.vm.$nextTick();
     expect(wrapper.vm.$data.errorId).toBe(1);
     expect(wrapper.vm.$data.errorMessage).toBe("Title field is empty.");
@@ -163,7 +164,7 @@ describe("EditArticleModal", () => {
     await wrapper.setData({
       bodyInput: "",
     });
-    await wrapper.findAll("button").at(0).trigger("click");
+    await wrapper.find("#update").trigger("click");
     await wrapper.vm.$nextTick();
     expect(wrapper.vm.$data.errorId).toBe(2);
     expect(wrapper.vm.$data.errorMessage).toBe("Body field is empty.");
@@ -201,7 +202,7 @@ describe("EditArticleModal", () => {
       titleInput: "testTitleInput",
       bodyInput: "testBodyInput",
     });
-    await wrapper.findAll("button").at(0).trigger("click");
+    await wrapper.find("#update").trigger("click");
     await wrapper.vm.$nextTick();
     expect(wrapper.emitted().afterEdit[0]).toStrictEqual(["Success"]);
   });
@@ -240,7 +241,7 @@ describe("EditArticleModal", () => {
       selectedAuthor: mockAuthors[mockArticle.author - 1].name,
       selectedAuthorsID: mockArticle.author,
     });
-    await wrapper.findAll("button").at(0).trigger("click");
+    await wrapper.find("#update").trigger("click");
     await wrapper.vm.$nextTick();
     expect(wrapper.emitted().afterEdit[0]).toStrictEqual(["Failure"]);
   });

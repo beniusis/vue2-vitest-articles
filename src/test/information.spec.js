@@ -54,7 +54,7 @@ describe("InformationMessage", () => {
 
   it("should emit onCloseAlert on close button click", async () => {
     const wrapper = createWrapper(InformationMessage);
-    await wrapper.find(".delete").trigger("click");
+    await wrapper.find("#delete").trigger("click");
     await wrapper.vm.$nextTick();
     expect(wrapper.emitted("onCloseAlert")).toBeTruthy();
   });

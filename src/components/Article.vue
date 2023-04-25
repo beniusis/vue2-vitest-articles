@@ -12,18 +12,21 @@
             v-if="!isDetails"
             class="button is-info is-small is-uppercase mr-2"
             @click="openArticleDetails"
+            id="details"
           >
             Details
           </button>
           <button
             class="button is-warning is-small is-uppercase mr-2"
             @click="$emit('onEditClick', id)"
+            id="edit"
           >
             Edit
           </button>
           <button
             class="button is-danger is-small is-uppercase"
             @click="$emit('onRemoveClick', id)"
+            id="remove"
           >
             Remove
           </button>

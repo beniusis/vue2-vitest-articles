@@ -22,6 +22,7 @@
             <p>{{ this.informationType }}</p>
             <button
               class="delete"
+              id="delete"
               aria-label="delete"
               @click="closeAlert"
             ></button>

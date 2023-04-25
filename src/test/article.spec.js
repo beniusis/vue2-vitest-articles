@@ -92,7 +92,7 @@ describe("Article", () => {
       },
     });
     await flushPromises();
-    await wrapper.findAll("button").at(0).trigger("click");
+    await wrapper.find("#details").trigger("click");
     await wrapper.vm.$nextTick();
     expect(
       wrapper.emitted({ name: "article", params: { id: mockArticle.id } })
@@ -119,7 +119,7 @@ describe("Article", () => {
       },
     });
     await flushPromises();
-    await wrapper.findAll("button").at(1).trigger("click");
+    await wrapper.find("#edit").trigger("click");
     await wrapper.vm.$nextTick();
     expect(wrapper.emitted("onEditClick")).toBeTruthy();
     expect(wrapper.emitted().onEditClick[0]).toStrictEqual([mockArticle.id]);
@@ -145,7 +145,7 @@ describe("Article", () => {
       },
     });
     await flushPromises();
-    await wrapper.findAll("button").at(2).trigger("click");
+    await wrapper.find("#remove").trigger("click");
     await wrapper.vm.$nextTick();
     expect(wrapper.emitted("onRemoveClick")).toBeTruthy();
     expect(wrapper.emitted().onRemoveClick[0]).toStrictEqual([mockArticle.id]);

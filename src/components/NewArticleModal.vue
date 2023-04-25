@@ -30,7 +30,7 @@
             </p>
             <div class="control">
               <div class="select">
-                <select v-model="selectedAuthor">
+                <select v-model="selectedAuthor" id="author-selection">
                   <option disabled>Select Author</option>
                   <option v-for="author in authorsList" :key="author.id">{{
                     author.name
@@ -57,12 +57,12 @@
           </div>
           <div class="field is-grouped">
             <div class="control">
-              <button class="button is-link" @click="checkFields">
+              <button class="button is-link" id="create" @click="checkFields">
                 Create
               </button>
             </div>
             <div class="control">
-              <button class="button is-link is-light" @click="handleCloseModal">
+              <button class="button is-link is-light" id="go-back" @click="handleCloseModal">
                 Go back
               </button>
             </div>

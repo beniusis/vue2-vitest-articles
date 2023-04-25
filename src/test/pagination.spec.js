@@ -33,6 +33,6 @@ describe("Pagination", () => {
         totalPages: totalPages,
       },
     });
-    expect(wrapper.findAll("li").length).toBe(totalPages);
+    expect(wrapper.find(".pagination-list").element.childElementCount).toBe(totalPages);
   });
 });
