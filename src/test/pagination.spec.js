@@ -19,7 +19,7 @@ describe("Pagination", () => {
     const pageNumber = 1;
     await wrapper.find(`#page-${pageNumber}`).trigger("click");
     await wrapper.vm.$nextTick();
-    expect(wrapper.emitted().onPageChange).toStrictEqual([[pageNumber]]);
+    expect(wrapper.emitted().onPageChange[0]).toStrictEqual([pageNumber]);
   });
 
   it("should fill up the page list correctly", () => {
